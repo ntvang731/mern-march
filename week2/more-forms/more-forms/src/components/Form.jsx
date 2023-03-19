@@ -21,8 +21,6 @@ const Form = (props) => {
     //function handleFirstName(e)
     const handleFirstName = (e) => {
         setFirstName(e.target.value);
-        //Sensei Bonus: Only show the validations if the input is not blank
-        //(i.e. you should not see the error message if you have not typed anything in)
         if(e.target.value.length > 0 && e.target.value.length < 2) {
             setFirstNameError("First name must be at least 2 characters");
         } else {
@@ -32,8 +30,6 @@ const Form = (props) => {
     
     const handleLastName = (e) => {
         setLastName(e.target.value);
-        //Sensei Bonus: Only show the validations if the input is not blank
-        //(i.e. you should not see the error message if you have not typed anything in)
         if(e.target.value.length > 0 && e.target.value.length < 2) {
             setLastNameError("Last name must be at least 2 characters");
         } else {
@@ -43,8 +39,6 @@ const Form = (props) => {
     
     const handleEmail = (e) => {
         setEmail(e.target.value);
-        //Sensei Bonus: Only show the validations if the input is not blank
-        //(i.e. you should not see the error message if you have not typed anything in)
         if(e.target.value.length > 0 && e.target.value.length < 5) {
             setEmailError("Email must be at least 5 characters");
         } else {
@@ -54,8 +48,6 @@ const Form = (props) => {
     
     const handlePassword = (e) => {
         setPassword(e.target.value);
-        //Sensei Bonus: Only show the validations if the input is not blank
-        //(i.e. you should not see the error message if you have not typed anything in)
         if(e.target.value.length > 0 && e.target.value.length < 8) {
             setPasswordError("Password must be at least 8 characters");
         } else {
@@ -65,11 +57,14 @@ const Form = (props) => {
 
     const handleConfirmPassword = (e) => {
         setConfirmPassword(e.target.value);
-        //Sensei Bonus: Only show the validations if the input is not blank
-        //(i.e. you should not see the error message if you have not typed anything in)
         if(e.target.value.length > 0 && e.target.value.length < 8) {
             setConfirmPasswordError("Confirm password must be at least 8 characters");
         } else if(!(e.target.value === getPassword)) {
+            //because the getter is lagging behind in being updated by the value in useState
+            //the getter value may or may not hold the intended value as the function continues to run;
+            //therefore when the getConfirmPassword and getPassword is compared in the below if statement,
+            //the evaluation may not work as intended
+        // } else if(!(getConfirmPassword === getPassword)) {
             setConfirmPasswordError("Passwords must match");
         } else {
             setConfirmPasswordError("");
