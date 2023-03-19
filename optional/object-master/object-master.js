@@ -77,5 +77,3 @@ console.log(countNormalPkmn)
 
 const poisonPkmn = pokémon.filter(p => p.types[0] === 'poison' || p.types[1] === 'poison').filter(p => p.name[0] === 'T').map(p => p.id)
 console.log(poisonPkmn)
-
-//
