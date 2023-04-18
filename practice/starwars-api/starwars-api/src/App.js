@@ -24,15 +24,22 @@ import axios from 'axios'
 // **********
 
 function App() {
+  // setting up useState to capture first ten characters of API data retrieval
+  const [starWarsCharacters, setStarWarsCharacters] = useState([])
   // useEffect(() => {}, []) structure for useEffect block
   useEffect(() => {
     // axios is now used in place of fetch
     axios.get('https://swapi.dev/api/people/') // api address location
       // if data is successfully retrieved, the .then will run
       // if data is unsuccesfully retrieved, the .catch will run
-      .then((res) => { // call back function with rest (i.e. response)
-        console.log('Response:')
-        console.log(res)
+      .then((res) => { // call back function with res (i.e. response)
+        console.log('RESPONSE:')
+        // will console log the entire API data retrieval per axios.get link
+        // console.log(res)
+        // will console log specifically what is under hierarchy res.data.results(i.e. array of first 10 characters)
+        console.log(res.data.results)
+        // will set useState to an array of first 10 characters
+        setStarWarsCharacters(res.data.results)
       })
       .catch((err) => { // call back function with err (i.e. error)
         console.log(err);
@@ -43,7 +50,19 @@ function App() {
   // to see successful data retrieval from API, go to browser component: Object --> data --> results
   return (
     <div className="App">
-
+      <h1>Using the Star Wars API</h1>
+      <a href='https://swapi.dev/' target='_blank'>Click here to view the <b>swapi</b> documentation</a>
+      {
+        // map through the starWarsCharacters array and show each character's name in browser
+        starWarsCharacters.map((character, index) => (
+          <div key={index}>
+            {/* 'name' from character.name is a key from the object */}
+            {/* refert to State in browser Components tab to see key value pair */}
+            <h3>Name: {character.name}</h3>
+            <p>---------------</p>
+          </div>
+        ))
+      }
     </div>
   );
 }
