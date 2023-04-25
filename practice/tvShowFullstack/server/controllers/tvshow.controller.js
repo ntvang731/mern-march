@@ -16,47 +16,54 @@ module.exports.findAllShows = (req, res) => {
         .catch((err) => {
             res.json({ message: 'Something went wrong', error: err })
         });
-}
-
-module.exports.createShow = (req, res) => {
-    // the req (i.e. request) is input from the client
-    // the client input comes from a form
-    // the form is found in the body so we access client input as such
-    Show.create(req.body)
+    }
+    
+    module.exports.createShow = (req, res) => {
+        // the req (i.e. request) is input from the client
+        // the client input comes from a form
+        // the form is found in the body so we access client input as such
+        Show.create(req.body)
         .then((newShow) => {
             res.json({ show: newShow})
         })
         .catch((err) => {
-            res.json({ message: 'Something went wrong', error: err })
-        });
-}
+            // standard way of implementing res.json(...) for .catch
+            // res.json({ message: 'Something went wrong', error: err })
 
-module.exports.findOneShow = (req,res) => {
-    console.log(req.params)
-    // instead of findOne, you can also use findById
-    // note the association where the id in 'req.params.id' must match
-    // the id in the route file '/api/oneShow/:id'
-    Show.findOne({ _id: req.params.id })
+            // cleaner way of implementing res.json(...) for .catch
+            // res.status(400) identifies that something went wrong
+            // do this if console log of error is showing up as status(200)
+            // status(200) is an incorrect representation that something went wrong
+            res.status(400).json(err)
+        });
+    }
+    
+    module.exports.findOneShow = (req,res) => {
+        console.log(req.params)
+        // instead of findOne, you can also use findById
+        // note the association where the id in 'req.params.id' must match
+        // the id in the route file '/api/oneShow/:id'
+        Show.findOne({ _id: req.params.id })
         .then((oneShow) => {
             res.json({ show: oneShow})
         })
         .catch((err) => {
             res.json({ message: 'Something went wrong', error: err})
         });
-}
-
-module.exports.updateShow = (req, res) => {
-    // three parameters for findOneAndUpdate
-    // 1. the id of the show so we know which show to update
-    // 2. the updated information passed via client input from the form (i.e. body)
-    // 3. boolean new set to true that returns updated show in .then statement; otherwise
-    // the previous data for the show is returned (i.e. non-updated data)
-    Show.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true})
+    }
+    
+    module.exports.updateShow = (req, res) => {
+        // three parameters for findOneAndUpdate
+        // 1. the id of the show so we know which show to update
+        // 2. the updated information passed via client input from the form (i.e. body)
+        // 3. boolean new set to true that returns updated show in .then statement; otherwise
+        // the previous data for the show is returned (i.e. non-updated data)
+        Show.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true})
         .then((updatedShow) => {
             res.json({ show: updatedShow})
         })
         .catch((err) => {
-            res.json({ message: 'Something went wrong', error: err})
+            res.status(400).json(err)
         });
     }
 
