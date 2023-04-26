@@ -58,7 +58,7 @@ module.exports.findAllShows = (req, res) => {
         // 2. the updated information passed via client input from the form (i.e. body)
         // 3. boolean new set to true that returns updated show in .then statement; otherwise
         // the previous data for the show is returned (i.e. non-updated data)
-        Show.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true})
+        Show.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true, runValidators: true})
         .then((updatedShow) => {
             res.json({ show: updatedShow})
         })
